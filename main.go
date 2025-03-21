@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const filePath = "large_file.csv"
+const filePath = "generate_csv/large_file.csv"
 const chunkSize = 1000000
 const numWorkers = 8
 
@@ -111,7 +111,7 @@ func worker(jobs <-chan [][]string, results chan<- chunkData, wg *sync.WaitGroup
 
 func processChunk(chunk [][]string) chunkData {
 	sum := 0
-	base_year, err := strconv.Atoi(chunk[0][0])
+	base_year, err := strconv.Atoi(chunk[0][1])
 	if err != nil {
 		fmt.Println("Error converting base year to int for current chunk")
 	}
@@ -119,7 +119,7 @@ func processChunk(chunk [][]string) chunkData {
 	max_year := base_year
 	fmt.Println("chunksize: ", len(chunk))
 	for row := range chunk {
-		year, err := strconv.Atoi(chunk[row][0])
+		year, err := strconv.Atoi(chunk[row][1])
 		if err != nil {
 			fmt.Println("Error converting year to int on line:", row)
 			continue
