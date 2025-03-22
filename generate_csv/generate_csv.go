@@ -13,22 +13,30 @@ import (
 	"strconv"
 )
 
-const file_length = 1000000000
+const file_length = 1000
 const mean = 50
-const sigma = 10
+const sigma = 15
 
 func main() {
 	file, err := os.OpenFile("large_data.csv", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatal("error creating csv", err)
 	}
+
+	names := []string{"bob", "robert", "bobby", "joe", "carol", "riley", "ali"}
 	defer file.Close()
-	header := []string{"value", "name"}
+
+	//blow in header ahead of anything else
+	header := []string{"name", "value"}
 	writer := csv.NewWriter(file)
 	writer.Write(header)
 	defer writer.Flush()
+
+	//loop through and write rows up to file length, with random names and normally distributed values
 	for i := 0; i <= file_length; i++ {
-		row := []string{"test_name", strconv.FormatFloat(rand.NormFloat64()*sigma+mean, 'G', 2, 64)}
+		//randint here may not be truely random due to modulo bias, 7 is not evenly divisible by 255.
+		randint := rand.Int() % len(names)
+		row := []string{names[randint], strconv.FormatFloat(rand.NormFloat64()*sigma+mean, 'G', 2, 64)}
 		err := writer.Write(row)
 		if err != nil {
 			panic(err)

@@ -37,6 +37,7 @@ func main() {
 	jobs := make(chan [][]string, numWorkers)
 	results := make(chan chunkData, numWorkers*chunkSize)
 	var wg sync.WaitGroup
+
 	header, err := reader.Read()
 	if err != nil {
 		fmt.Println("error reading header", err)
