@@ -10,6 +10,8 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"time"
+	"fmt"
 	"strconv"
 )
 
@@ -18,6 +20,7 @@ const mean = 50
 const sigma = 15
 
 func main() {
+	start := time.Now()
 	file, err := os.OpenFile("large_data.csv", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatal("error creating csv", err)
@@ -42,4 +45,5 @@ func main() {
 			panic(err)
 		}
 	}
+	fmt.Printf("File generation complete. Generated %v rows in %s \n",file_length, time.Since(start) )
 }
