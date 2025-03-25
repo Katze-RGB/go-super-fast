@@ -42,7 +42,4 @@ func main() {
 			panic(err)
 		}
 	}
-	// blow in header
-	writer.Write(header)
-	defer writer.Flush()
 }
